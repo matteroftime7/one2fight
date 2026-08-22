@@ -1,0 +1,76 @@
+name: one2fight-ci
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main" ]
+
+permissions:
+    contents: read
+
+jobs:
+  build-and-test:
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: 'temurin'
+
+      - name: Cache Gradle
+        uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Decode Keystore
+        if: github.ref == 'refs/heads/main' # Запускать только для main ветки
+        run: |
+          echo "${{ secrets.ONE2FIGHT_KEYSTORE_FILE }}" | base64 --decode > app/keystore.jks
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      # 6.6. Запуск линтера для проверки качества кода
+      - name: Run Lint
+        run: ./gradlew lint
+
+      # 6.7. Запуск модульных тестов
+      - name: Run Unit Tests
+        run: ./gradlew test
+
+      # 6.8. Сборка APK (Debug для всех, Release для main)
+      - name: Build APK
+        run: |
+          if [ "${{ github.ref }}" == "refs/heads/main" ]; then
+            ./gradlew assembleRelease
+          else
+            ./gradlew assembleDebug
+          fi
+
+      # 6.9. Загрузка собранного APK как артефакта
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-${{ github.ref_name }}
+          path: app/build/outputs/apk/debug/*.apk # или /release/*.apk
+
+
+
+
+
+
+
+

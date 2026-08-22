@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.compose)
@@ -19,16 +20,27 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            storeFile = file(System.getenv("ONE2FIGHT_KEYSTORE_FILE") ?: "my-release-key.jks")
+            storePassword = System.getenv("ONE2FIGHT_KEYSTORE_PASSWORD")
+            keyAlias = System.getenv("ONE2FIGHT_KEY_ALIAS")
+            keyPassword = System.getenv("ONE2FIGHT_KEY_PASSWORD")
+        }
+    }
+
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             optimization {
                 enable = false
             }
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     buildFeatures {
         compose = true
