@@ -1,26 +1,9 @@
-
 plugins {
-    alias(libs.plugins.android.library)
+    alias(libs.plugins.library.convention)
     alias(libs.plugins.kotlin.compose)
 }
 
-android {
-    namespace = "com.matteroftime.feature.auth.impl"
-    compileSdk {
-        version = release(37)
-    }
-
-    defaultConfig {
-        minSdk = 29
-
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-    }
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-    }
-
-}
+android { namespace = "com.one2fight.feature.auth.impl" }
 
 dependencies {
 
@@ -32,13 +15,5 @@ dependencies {
     implementation(libs.androidx.material3)
 
 
-
-
-//    testImplementation(libs.junit)
-//    androidTestImplementation(libs.androidx.espresso.core)
-//    androidTestImplementation(libs.androidx.junit)
-
     implementation(project(":feature:auth:api"))
-
-
 }
