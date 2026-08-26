@@ -24,6 +24,7 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "one2fight"
+
 include(":app")
 include(":feature:auth:api")
 include(":feature:auth:impl")

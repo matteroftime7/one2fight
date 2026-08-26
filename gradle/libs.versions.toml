@@ -1,4 +1,10 @@
 [versions]
+
+minSdk = "29"
+targetSdk = "37"
+compileSdk = "37"
+java = "21"
+
 agp = "9.3.2"
 coreKtx = "1.19.0"
 junit = "4.13.2"
@@ -44,6 +50,10 @@ material = { group = "com.google.android.material", name = "material", version.r
 androidx-compose-runtime = { group = "androidx.compose.runtime", name = "runtime", version.ref = "runtime" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 
+# Build-Logic
+android-gradlePlugin = { group = "com.android.tools.build", name = "gradle", version.ref = "agp" }
+kotlin-gradlePlugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlin" }
+
 # Navigation3
 nav3-runtime = { module = "androidx.navigation3:navigation3-runtime", version.ref = "nav3" }
 nav3-ui = { module = "androidx.navigation3:navigation3-ui", version.ref = "nav3" }
@@ -60,4 +70,5 @@ kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "ko
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlinSerialization" }
 
+library-convention = { id = "app.one2fight.library.plugin", version = "unspecified" }
 
